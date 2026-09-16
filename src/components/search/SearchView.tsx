@@ -66,10 +66,10 @@ export const SearchView: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto space-y-4 pb-16">
+    <div className="w-full max-w-6xl mx-auto space-y-4 pb-16 min-w-0 overflow-x-hidden">
       {/* Search field at top */}
-      <div className="max-w-2xl mx-auto space-y-2.5">
-        <div className="relative flex items-center">
+      <div className="max-w-2xl mx-auto space-y-2.5 w-full min-w-0">
+        <div className="relative flex items-center w-full min-w-0">
           <Search className="w-4.5 h-4.5 text-stone-400 absolute left-3.5 pointer-events-none stroke-[2]" />
           <input
             id="search-view-input"
@@ -93,7 +93,7 @@ export const SearchView: React.FC = () => {
         </div>
 
         {/* Quick query suggestion pills */}
-        <div className="flex gap-1.5 overflow-x-auto pb-1 scrollbar-none text-[11px] -mx-4 px-4 sm:mx-0 sm:px-0">
+        <div className="w-full min-w-0 flex gap-1.5 overflow-x-auto pb-1 scrollbar-none text-[11px]">
           {['Gultuvak', 'Tuproq', 'Dori', "O'g'it", 'Sekator', 'Monstera', 'Orxideya', 'Atirgullar', 'Bonsay', 'Fikus'].map(term => (
             <motion.button
               key={term}

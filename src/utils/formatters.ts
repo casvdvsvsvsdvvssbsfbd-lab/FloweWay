@@ -39,17 +39,26 @@ export function formatDate(isoString: string): string {
   }
 }
 
+const CYRILLIC_TO_LATIN: Record<string, string> = {
+  'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'yo',
+  'ж': 'j', 'з': 'z', 'и': 'i', 'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm',
+  'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u',
+  'ф': 'f', 'х': 'x', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'sh', 'ъ': '',
+  'ы': 'i', 'ь': '', 'э': 'e', 'ю': 'yu', 'я': 'ya', 'ў': 'o', 'ғ': 'g',
+  'қ': 'q', 'ҳ': 'h',
+};
+
 /**
- * Basic typo-tolerant and multi-language search helper
- * Matches Uzbek, Russian, English, transliterations
+ * Typo-tolerant, multi-script search helper
+ * Matches Uzbek Latin, Cyrillic, transliterations, and handles apostrophes (' ` ʻ ʼ)
  */
 export function matchesSearch(text: string, query: string): boolean {
   if (!query.trim()) return true;
   const cleanText = normalizeText(text);
   const cleanQuery = normalizeText(query);
 
-  // Exact substring
-  if (cleanText.includes(cleanQuery)) return true;
+  // Exact or contains substring
+  if (cleanText.includes(cleanQuery) || cleanQuery.includes(cleanText)) return true;
 
   // Word-by-word token matching
   const queryTokens = cleanQuery.split(/\s+/).filter(Boolean);
@@ -58,7 +67,7 @@ export function matchesSearch(text: string, query: string): boolean {
   return queryTokens.every(qToken => {
     return textTokens.some(tToken => {
       if (tToken.includes(qToken) || qToken.includes(tToken)) return true;
-      // Simple 1-character typo tolerance for tokens with length >= 4
+      // 1-character typo tolerance for tokens with length >= 4
       if (qToken.length >= 4 && tToken.length >= 4) {
         return levenshteinDistance(qToken, tToken) <= 1;
       }
@@ -67,11 +76,18 @@ export function matchesSearch(text: string, query: string): boolean {
   });
 }
 
-function normalizeText(str?: string | null): string {
+export function normalizeText(str?: string | null): string {
   if (!str) return '';
-  return str
-    .toLowerCase()
-    .replace(/['`ʻʼ]/g, '')
+  let lowered = str.toLowerCase();
+
+  // Transliterate cyrillic characters
+  let transliterated = '';
+  for (const char of lowered) {
+    transliterated += CYRILLIC_TO_LATIN[char] !== undefined ? CYRILLIC_TO_LATIN[char] : char;
+  }
+
+  return transliterated
+    .replace(/['`ʻʼ’‘]/g, '')
     .trim();
 }
 

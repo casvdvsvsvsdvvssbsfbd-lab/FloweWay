@@ -16,6 +16,30 @@ import { mockCategories, mockDeliveryMethods, mockNotifications, mockOrders, moc
 import { mockProducts } from '../data/mockProducts';
 import { matchesSearch } from '../utils/formatters';
 
+const STORAGE_KEYS = {
+  PRODUCTS: 'flowerway_products_custom_v1',
+  ORDERS: 'flowerway_orders_v1',
+  ADDRESSES: 'flowerway_addresses_v1',
+  PROFILE: 'flowerway_profile_v1',
+};
+
+function safeGetStorage<T>(key: string, fallback: T): T {
+  try {
+    const val = localStorage.getItem(key);
+    return val ? JSON.parse(val) : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function safeSetStorage<T>(key: string, value: T): void {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    // Ignore storage quota limits
+  }
+}
+
 export class MarketplaceService {
   private products: Product[] = [...mockProducts];
   private orders: Order[] = [...mockOrders];
@@ -23,9 +47,24 @@ export class MarketplaceService {
   private notifications: AppNotification[] = [...mockNotifications];
   private profile: UserProfile = { ...mockUserProfile };
 
+  constructor() {
+    const customProducts = safeGetStorage<Product[]>(STORAGE_KEYS.PRODUCTS, []);
+    if (customProducts && customProducts.length > 0) {
+      this.products = [...customProducts, ...mockProducts];
+    }
+    const savedOrders = safeGetStorage<Order[]>(STORAGE_KEYS.ORDERS, []);
+    if (savedOrders && savedOrders.length > 0) {
+      this.orders = [...savedOrders, ...mockOrders];
+    }
+    this.addresses = safeGetStorage<UserAddress[]>(STORAGE_KEYS.ADDRESSES, mockUserAddresses);
+    this.profile = safeGetStorage<UserProfile>(STORAGE_KEYS.PROFILE, mockUserProfile);
+  }
+
   // Products & Filtering
   addProduct(product: Product): void {
     this.products.unshift(product);
+    const custom = safeGetStorage<Product[]>(STORAGE_KEYS.PRODUCTS, []);
+    safeSetStorage(STORAGE_KEYS.PRODUCTS, [product, ...custom]);
   }
 
   async getProducts(filters?: FilterOptions, sort: SortOption = 'recommended'): Promise<Product[]> {
@@ -287,6 +326,7 @@ export class MarketplaceService {
     };
 
     this.orders.unshift(newOrder);
+    safeSetStorage(STORAGE_KEYS.ORDERS, this.orders);
 
     // Also add an automatic notification
     this.notifications.unshift({
@@ -324,17 +364,20 @@ export class MarketplaceService {
       this.addresses.forEach(a => (a.isDefault = false));
     }
     this.addresses.push(newAddr);
+    safeSetStorage(STORAGE_KEYS.ADDRESSES, this.addresses);
     return newAddr;
   }
 
   async deleteAddress(id: string): Promise<void> {
     this.addresses = this.addresses.filter(a => a.id !== id);
+    safeSetStorage(STORAGE_KEYS.ADDRESSES, this.addresses);
   }
 
   async setDefaultAddress(id: string): Promise<void> {
     this.addresses.forEach(a => {
       a.isDefault = a.id === id;
     });
+    safeSetStorage(STORAGE_KEYS.ADDRESSES, this.addresses);
   }
 
   // Profile
@@ -344,6 +387,7 @@ export class MarketplaceService {
 
   async updateProfile(updates: Partial<UserProfile>): Promise<UserProfile> {
     this.profile = { ...this.profile, ...updates };
+    safeSetStorage(STORAGE_KEYS.PROFILE, this.profile);
     return this.profile;
   }
 

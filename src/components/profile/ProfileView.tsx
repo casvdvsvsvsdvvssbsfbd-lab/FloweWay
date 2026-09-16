@@ -264,7 +264,7 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ onOpenTelegramModal })
 
                 <div
                   onClick={() => {
-                    window.open('https://t.me/plantmarket_support', '_blank');
+                    window.open('https://t.me/flowerway_support', '_blank');
                   }}
                   className="p-3.5 flex items-center justify-between cursor-pointer hover:bg-stone-50/50 transition-colors"
                 >
@@ -278,9 +278,9 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ onOpenTelegramModal })
                 <div className="p-3.5 flex items-center justify-between text-xs text-stone-500">
                   <div className="flex items-center gap-3">
                     <ShieldCheck className="w-4.5 h-4.5 text-[#1c3829]" />
-                    <span>O'simliklar Bozori Milliy Platformasi</span>
+                    <span>FlowerWay Milliy Platformasi</span>
                   </div>
-                  <span className="font-semibold text-stone-700 font-mono">v2.1.0 Rasmiy</span>
+                  <span className="font-semibold text-stone-700 font-sans">v2.1.0 Rasmiy</span>
                 </div>
               </div>
             </div>

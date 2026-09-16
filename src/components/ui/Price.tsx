@@ -46,18 +46,18 @@ export const Price: React.FC<PriceProps> = ({
 
   return (
     <div className={`flex items-baseline gap-2 flex-wrap ${className}`}>
-      <span className={`${currentStyles.current} text-[#111111] tracking-tight`}>
+      <span className={`${currentStyles.current} text-[#111111] tracking-tight font-price`}>
         {formatUZS(price)}
       </span>
 
       {hasDiscount && oldPrice && (
-        <span className={`${currentStyles.old} text-[#8c8c8c] line-through font-normal`}>
+        <span className={`${currentStyles.old} text-[#8c8c8c] line-through font-normal font-price`}>
           {formatUZS(oldPrice)}
         </span>
       )}
 
       {calculatedDiscount > 0 && (
-        <span className={`${currentStyles.badge} rounded-md bg-rose-50 text-rose-700 border border-rose-200/80 font-bold tracking-tight`}>
+        <span className={`${currentStyles.badge} rounded-md bg-rose-50 text-rose-700 border border-rose-200/80 font-bold tracking-tight font-sans`}>
           -{calculatedDiscount}%
         </span>
       )}

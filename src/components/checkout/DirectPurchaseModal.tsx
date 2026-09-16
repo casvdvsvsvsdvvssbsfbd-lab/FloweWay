@@ -21,6 +21,8 @@ import { formatUZS } from '../../utils/formatters';
 import { UZBEKISTAN_REGIONS } from '../../data/mockData';
 import { marketplaceService } from '../../services/marketplaceService';
 import { IOSSmoothImage } from '../common/IOSSmoothImage';
+import { RealisticCreditCard } from './RealisticCreditCard';
+import { PaymentCountdownBanner } from './PaymentCountdownBanner';
 
 interface DirectPurchaseModalProps {
   product: Product;
@@ -179,11 +181,11 @@ export const DirectPurchaseModal: React.FC<DirectPurchaseModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/60 backdrop-blur-md overflow-y-auto">
-      <div className="relative w-full max-w-lg bg-white rounded-[46px] border border-stone-200 shadow-2xl overflow-hidden my-auto animate-in fade-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-lg bg-white rounded-[28px] sm:rounded-[40px] border border-stone-200 shadow-2xl overflow-hidden my-auto animate-in fade-in zoom-in-95 duration-200">
         {/* Header with Product Pill */}
-        <div className="p-6 border-b border-stone-100 flex items-center justify-between gap-3 bg-stone-50/70">
-          <div className="flex items-center gap-3 min-w-0">
-            <div className="w-12 h-12 rounded-2xl overflow-hidden border border-stone-200 shrink-0 bg-white">
+        <div className="p-4 sm:p-6 border-b border-stone-100 flex items-center justify-between gap-3 bg-stone-50/70">
+          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl overflow-hidden border border-stone-200 shrink-0 bg-white">
               <IOSSmoothImage
                 src={product.images[0]}
                 alt={product.name}
@@ -194,10 +196,10 @@ export const DirectPurchaseModal: React.FC<DirectPurchaseModalProps> = ({
               <span className="text-[10px] uppercase font-bold text-emerald-800 tracking-wider">
                 Tezkor Sotib Olish
               </span>
-              <h3 className="text-sm sm:text-base font-bold text-stone-900 truncate">
+              <h3 className="text-xs sm:text-base font-bold text-stone-900 truncate">
                 {product.name}
               </h3>
-              <div className="text-xs font-bold text-stone-600">
+              <div className="text-[11px] sm:text-xs font-bold text-stone-600">
                 {quantity} dona • <span className="text-emerald-700">{formatUZS(totalAmount)}</span>
               </div>
             </div>
@@ -205,24 +207,24 @@ export const DirectPurchaseModal: React.FC<DirectPurchaseModalProps> = ({
 
           <button
             onClick={onClose}
-            className="w-10 h-10 rounded-full bg-white border border-stone-200 flex items-center justify-center text-stone-500 hover:text-stone-900 hover:bg-stone-100 transition-colors shrink-0 shadow-xs cursor-pointer"
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white border border-stone-200 flex items-center justify-center text-stone-500 hover:text-stone-900 hover:bg-stone-100 transition-colors shrink-0 shadow-xs cursor-pointer"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         </div>
 
         {/* Steps Progress Indicator */}
         {activeStep < 4 && (
-          <div className="px-6 pt-4 pb-2">
-            <div className="flex items-center justify-between text-xs font-bold text-stone-700 mb-2">
+          <div className="px-4 sm:px-6 pt-4 pb-2">
+            <div className="flex items-center justify-between text-[10.5px] min-[400px]:text-xs font-bold text-stone-700 mb-2">
               <span className={activeStep === 1 ? 'text-emerald-800' : 'text-stone-400'}>
-                1. Karta raqamingiz
+                1. Karta raqam
               </span>
               <span className={activeStep === 2 ? 'text-emerald-800' : 'text-stone-400'}>
-                2. Biznes kartamiz
+                2. Biznes karta
               </span>
               <span className={activeStep === 3 ? 'text-emerald-800' : 'text-stone-400'}>
-                3. Chekni yuborish
+                3. To'lov cheki
               </span>
             </div>
             <div className="flex gap-1.5 h-1.5 rounded-full overflow-hidden bg-stone-100">
@@ -245,7 +247,7 @@ export const DirectPurchaseModal: React.FC<DirectPurchaseModalProps> = ({
           </div>
         )}
 
-        <div className="p-6 space-y-5">
+        <div className="p-4 sm:p-6 space-y-4 sm:space-y-5">
           {/* STEP 1: User 16-digit card input */}
           {activeStep === 1 && (
             <div className="space-y-4 animate-in fade-in">
@@ -262,34 +264,15 @@ export const DirectPurchaseModal: React.FC<DirectPurchaseModalProps> = ({
                 </p>
               </div>
 
-              {/* Realistic Visual Card Preview */}
-              <div
-                className={`relative w-full p-5 sm:p-6 rounded-[28px] text-white shadow-xl overflow-hidden transition-all duration-300 ${cardBrand.color}`}
-              >
-                <div className="flex justify-between items-center mb-4">
-                  <div className="w-9 h-6 bg-gradient-to-tr from-amber-300 to-amber-500 rounded-md border border-amber-600/40 p-1 shadow-xs">
-                    <div className="w-full h-full border border-amber-800/30 rounded-[2px]" />
-                  </div>
-                  <span className="text-xs font-black tracking-wider px-2 py-0.5 bg-white/20 backdrop-blur-md rounded-md">
-                    {cardBrand.badge}
-                  </span>
-                </div>
-
-                <div className="font-mono text-lg sm:text-xl font-bold tracking-[0.2em] my-3 drop-shadow-md">
-                  {userCardNumber || '8600 •••• •••• ••••'}
-                </div>
-
-                <div className="flex justify-between items-end text-xs text-white/80 pt-2 border-t border-white/10">
-                  <div>
-                    <div className="text-[9px] uppercase tracking-wider text-white/50">Karta egasi</div>
-                    <div className="font-bold uppercase tracking-wider">{cardHolderInput || 'XARIDOR'}</div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-[9px] uppercase tracking-wider text-white/50">Amal qilish</div>
-                    <div className="font-mono font-bold">12/28</div>
-                  </div>
-                </div>
-              </div>
+              {/* Realistic Visual Card Preview (Real aspect ratio 1.586:1) */}
+              <RealisticCreditCard
+                variant="user"
+                cardNumber={userCardNumber || '8600 •••• •••• ••••'}
+                cardHolder={cardHolderInput || 'XARIDOR'}
+                bankName={cardBrand.name}
+                cardBrandName={cardBrand.badge}
+                subTitle="Mijoz To'lov Kartasi"
+              />
 
               {/* Card Number Input Field */}
               <div className="space-y-1.5">
@@ -366,106 +349,66 @@ export const DirectPurchaseModal: React.FC<DirectPurchaseModalProps> = ({
           {/* STEP 2: Official Business Card & Payment Instructions */}
           {activeStep === 2 && (
             <div className="space-y-4 animate-in fade-in">
+              {/* TOP NOTICE: 7-minute countdown banner with auto-close warning */}
+              <PaymentCountdownBanner
+                initialSeconds={420}
+                onExpire={() => {
+                  showToast("7 daqiqalik to'lov vaqti tugadi. Xavfsizlik maqsadida xarid bekor qilindi.", 'error');
+                  onClose();
+                }}
+                onExtend={() => {
+                  showToast("To'lov vaqti yana 7 daqiqaga uzaytirildi! ⏱", 'info');
+                }}
+              />
+
               <div className="text-center space-y-1">
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-50 rounded-full text-amber-900 text-xs font-bold border border-amber-200 mb-1">
                   <Building2 className="w-3.5 h-3.5" />
                   <span>Biznes Karta Rekvizitlari</span>
                 </div>
-                <h4 className="text-base sm:text-lg font-bold text-stone-900">
+                <h4 className="text-base sm:text-lg font-bold text-stone-900 font-sans">
                   Bizning biznes kartamizga to‘lov qiling
                 </h4>
-                <p className="text-xs text-stone-500 max-w-sm mx-auto">
+                <p className="text-xs text-stone-500 max-w-sm mx-auto font-sans">
                   Quyidagi rasmiy biznes kartamizga to‘lovni o‘tkazing va chekni saqlab oling.
                 </p>
               </div>
 
-              {/* High-Fidelity Business Card */}
-              <div className="relative w-full p-6 rounded-[32px] bg-gradient-to-br from-[#0c2e22] via-[#114b38] to-[#082218] text-white shadow-2xl overflow-hidden border border-emerald-500/30">
-                <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-400/10 rounded-full blur-3xl pointer-events-none" />
-
-                <div className="relative z-10 flex justify-between items-center mb-4">
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center">
-                      <Sparkles className="w-4 h-4 text-emerald-300" />
-                    </div>
-                    <div>
-                      <div className="text-[10px] uppercase font-extrabold tracking-wider text-emerald-300">
-                        Rasmiy Biznes Karta
-                      </div>
-                      <div className="text-xs font-bold text-white/90">{OFFICIAL_BUSINESS_CARD.bankName}</div>
-                    </div>
-                  </div>
-
-                  <span className="text-[11px] font-black tracking-wider px-2.5 py-1 bg-emerald-500/20 border border-emerald-400/40 rounded-full text-emerald-200">
-                    UZCARD BUSINESS
-                  </span>
-                </div>
-
-                {/* Card Number with 1-click Copy */}
-                <div className="relative z-10 my-4 p-3 bg-white/10 backdrop-blur-md rounded-2xl border border-white/15 flex items-center justify-between gap-3">
-                  <div>
-                    <div className="text-[9px] uppercase tracking-wider text-white/60 font-semibold">
-                      Biznes Karta Raqami
-                    </div>
-                    <div className="font-mono text-base sm:text-xl font-black tracking-[0.18em] text-white">
-                      {OFFICIAL_BUSINESS_CARD.cardNumber}
-                    </div>
-                  </div>
-                  <button
-                    onClick={handleCopyBusinessCard}
-                    className="p-2.5 rounded-xl bg-white text-emerald-950 font-bold text-xs flex items-center gap-1.5 hover:bg-emerald-50 transition-all active:scale-95 shadow-md cursor-pointer shrink-0"
-                  >
-                    {copiedCard ? (
-                      <>
-                        <Check className="w-4 h-4 text-emerald-600 stroke-[3]" />
-                        <span>Nusxalandi!</span>
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="w-4 h-4" />
-                        <span>Nusxa olish</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-
-                {/* Card details bottom row */}
-                <div className="relative z-10 flex justify-between items-end text-xs text-white/90 pt-1">
-                  <div>
-                    <div className="text-[9px] uppercase tracking-wider text-white/60">Qabul qiluvchi</div>
-                    <div className="font-bold text-xs sm:text-sm text-emerald-200">
-                      {OFFICIAL_BUSINESS_CARD.cardHolder}
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-[9px] uppercase tracking-wider text-white/60">INN</div>
-                    <div className="font-mono text-xs">{OFFICIAL_BUSINESS_CARD.inn}</div>
-                  </div>
-                </div>
-              </div>
+              {/* High-Fidelity Realistic Business Card (Aspect Ratio 1.586:1) */}
+              <RealisticCreditCard
+                variant="business"
+                cardNumber={OFFICIAL_BUSINESS_CARD.cardNumber}
+                cardHolder={OFFICIAL_BUSINESS_CARD.cardHolder}
+                bankName={OFFICIAL_BUSINESS_CARD.bankName}
+                inn={OFFICIAL_BUSINESS_CARD.inn}
+                cardBrandName="UZCARD BUSINESS"
+                subTitle="Rasmiy Korporativ Hisob"
+                onCopy={handleCopyBusinessCard}
+                isCopied={copiedCard}
+              />
 
               {/* Exact Amount Banner with 1-click Copy */}
-              <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 flex items-center justify-between gap-3">
+              <div className="p-4 bg-[#faf7f2] rounded-2xl border border-[#e6ded2] flex items-center justify-between gap-3 shadow-xs">
                 <div>
-                  <span className="text-[10px] uppercase font-bold text-emerald-800 tracking-wider">
+                  <span className="text-[10px] uppercase font-bold text-[#1c3829] tracking-wider font-sans">
                     To‘lanishi kerak bo‘lgan aniq summa
                   </span>
-                  <div className="text-lg sm:text-xl font-black text-emerald-950">
+                  <div className="text-lg sm:text-2xl font-extrabold text-[#1c3829] font-price">
                     {formatUZS(totalAmount)}
                   </div>
                 </div>
                 <button
                   onClick={handleCopyAmount}
-                  className="px-3.5 py-2 rounded-xl bg-emerald-800 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer shrink-0 shadow-xs"
+                  className="px-3.5 py-2 rounded-xl bg-[#1c3829] hover:bg-[#284c37] text-white font-bold text-xs flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer shrink-0 shadow-xs font-sans"
                 >
                   {copiedAmount ? (
                     <>
-                      <Check className="w-3.5 h-3.5 stroke-[3]" />
+                      <Check className="w-3.5 h-3.5 stroke-[3] text-emerald-300" />
                       <span>Nusxalandi</span>
                     </>
                   ) : (
                     <>
-                      <Copy className="w-3.5 h-3.5" />
+                      <Copy className="w-3.5 h-3.5 text-[#dfb15b]" />
                       <span>Summani nusxalash</span>
                     </>
                   )}
@@ -473,28 +416,28 @@ export const DirectPurchaseModal: React.FC<DirectPurchaseModalProps> = ({
               </div>
 
               {/* Payment apps guide */}
-              <div className="p-3.5 bg-stone-50 rounded-2xl border border-stone-200 text-xs text-stone-600 space-y-1.5">
+              <div className="p-3.5 bg-white rounded-2xl border border-stone-200 text-xs text-stone-600 space-y-1.5 shadow-2xs font-sans">
                 <div className="font-bold text-stone-900 flex items-center gap-1.5">
-                  <ShieldCheck className="w-4 h-4 text-emerald-700" />
+                  <ShieldCheck className="w-4 h-4 text-[#1c3829]" />
                   <span>Qanday to‘lanadi?</span>
                 </div>
                 <p className="text-[11px] leading-relaxed">
                   Payme, Click, Uzum Bank yoki istalgan bank ilovangizni oching, biznes karta raqamini kiriting va{' '}
-                  <b className="text-stone-900">{formatUZS(totalAmount)}</b> o‘tkazing. To‘lovdan keyin chekni screenshot qilib saqlang.
+                  <b className="text-stone-900 font-price">{formatUZS(totalAmount)}</b> o‘tkazing. To‘lovdan keyin chekni screenshot qilib saqlang.
                 </p>
               </div>
 
               <div className="flex gap-3">
                 <button
                   onClick={() => setActiveStep(1)}
-                  className="w-1/3 py-3.5 px-4 rounded-full border border-stone-300 hover:bg-stone-100 text-stone-700 font-bold text-xs flex items-center justify-center gap-1 transition-all cursor-pointer"
+                  className="w-1/3 py-3.5 px-4 rounded-full border border-stone-300 hover:bg-stone-100 text-stone-700 font-bold text-xs flex items-center justify-center gap-1 transition-all cursor-pointer font-sans"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   <span>Orqaga</span>
                 </button>
                 <button
                   onClick={() => setActiveStep(3)}
-                  className="w-2/3 py-3.5 px-5 rounded-full bg-emerald-800 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg transition-all active:scale-98 cursor-pointer"
+                  className="w-2/3 py-3.5 px-5 rounded-full bg-[#1c3829] hover:bg-[#284c37] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg transition-all active:scale-98 cursor-pointer font-sans"
                 >
                   <span>To‘lov qildim, chekni yuklash</span>
                   <ArrowRight className="w-4 h-4" />
@@ -506,22 +449,34 @@ export const DirectPurchaseModal: React.FC<DirectPurchaseModalProps> = ({
           {/* STEP 3: Upload Payment Receipt */}
           {activeStep === 3 && (
             <div className="space-y-4 animate-in fade-in">
+              {/* TOP NOTICE: 7-minute countdown banner continues */}
+              <PaymentCountdownBanner
+                initialSeconds={420}
+                onExpire={() => {
+                  showToast("7 daqiqalik to'lov vaqti tugadi. Xavfsizlik maqsadida xarid bekor qilindi.", 'error');
+                  onClose();
+                }}
+                onExtend={() => {
+                  showToast("To'lov vaqti yana 7 daqiqaga uzaytirildi! ⏱", 'info');
+                }}
+              />
+
               <div className="text-center space-y-1">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 rounded-full text-emerald-800 text-xs font-bold border border-emerald-100 mb-1">
-                  <UploadCloud className="w-3.5 h-3.5" />
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-50 rounded-full text-amber-900 text-xs font-bold border border-amber-200 mb-1">
+                  <UploadCloud className="w-3.5 h-3.5 text-[#b85d3f]" />
                   <span>To‘lov Kvitansiyasi (Chek)</span>
                 </div>
-                <h4 className="text-base sm:text-lg font-bold text-stone-900">
+                <h4 className="text-base sm:text-lg font-bold text-stone-900 font-sans">
                   To‘lov qilgan chekingizni yuklang
                 </h4>
-                <p className="text-xs text-stone-500 max-w-sm mx-auto">
+                <p className="text-xs text-stone-500 max-w-sm mx-auto font-sans">
                   Bank ilovangizdan saqlab olingan to‘lov chekining rasmini yoki skrinshotini quyida yuboring.
                 </p>
               </div>
 
               {/* Upload Drop Zone / Preview */}
               {!receiptPreview ? (
-                <div className="relative border-2 border-dashed border-stone-300 hover:border-emerald-600 rounded-[32px] p-6 text-center bg-stone-50/60 hover:bg-emerald-50/20 transition-all group">
+                <div className="relative border-2 border-dashed border-[#d8cfbe] hover:border-[#1c3829] rounded-[24px] p-6 text-center bg-[#faf8f5] hover:bg-[#f5efe6] transition-all group">
                   <input
                     type="file"
                     accept="image/*,application/pdf"
@@ -529,23 +484,23 @@ export const DirectPurchaseModal: React.FC<DirectPurchaseModalProps> = ({
                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                   />
                   <div className="flex flex-col items-center justify-center gap-2 pointer-events-none">
-                    <div className="w-14 h-14 rounded-2xl bg-emerald-100/80 text-emerald-800 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <div className="w-14 h-14 rounded-2xl bg-white border border-[#e6ded2] text-[#1c3829] flex items-center justify-center group-hover:scale-105 transition-transform shadow-xs">
                       <UploadCloud className="w-7 h-7" />
                     </div>
-                    <div className="font-bold text-stone-800 text-xs sm:text-sm">
+                    <div className="font-bold text-stone-800 text-xs sm:text-sm font-sans">
                       To‘lov chekini tanlang yoki bu yerga tashlang
                     </div>
-                    <div className="text-[11px] text-stone-400">
+                    <div className="text-[11px] text-stone-400 font-sans">
                       PNG, JPG yoki PDF (maksimal 10MB)
                     </div>
                   </div>
                 </div>
               ) : (
-                <div className="relative bg-emerald-50/60 border border-emerald-200 rounded-[32px] p-4 space-y-3">
-                  <div className="flex items-center justify-between pb-2 border-b border-emerald-100">
+                <div className="relative bg-[#faf7f2] border border-[#e6ded2] rounded-[24px] p-4 space-y-3">
+                  <div className="flex items-center justify-between pb-2 border-b border-stone-200">
                     <div className="flex items-center gap-2">
-                      <FileText className="w-4 h-4 text-emerald-800" />
-                      <span className="text-xs font-bold text-stone-900 truncate max-w-[200px]">
+                      <FileText className="w-4 h-4 text-[#1c3829]" />
+                      <span className="text-xs font-bold text-stone-900 truncate max-w-[200px] font-sans">
                         {receiptFileName || 'tolov_cheki.png'}
                       </span>
                     </div>
@@ -562,7 +517,7 @@ export const DirectPurchaseModal: React.FC<DirectPurchaseModalProps> = ({
                     </button>
                   </div>
 
-                  <div className="h-44 w-full bg-white rounded-2xl border border-stone-200 overflow-hidden flex items-center justify-center">
+                  <div className="h-44 w-full bg-white rounded-xl border border-stone-200 overflow-hidden flex items-center justify-center">
                     <img
                       src={receiptPreview}
                       alt="To'lov cheki"
@@ -570,8 +525,8 @@ export const DirectPurchaseModal: React.FC<DirectPurchaseModalProps> = ({
                     />
                   </div>
 
-                  <div className="flex items-center gap-1.5 text-xs text-emerald-800 font-semibold justify-center">
-                    <CheckCircle2 className="w-4 h-4" />
+                  <div className="flex items-center gap-1.5 text-xs text-emerald-800 font-semibold justify-center font-sans">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                     <span>To‘lov cheki muvaffaqiyatli biriktirildi</span>
                   </div>
                 </div>
@@ -582,7 +537,7 @@ export const DirectPurchaseModal: React.FC<DirectPurchaseModalProps> = ({
                 <div className="flex justify-center">
                   <button
                     onClick={handleAttachSampleReceipt}
-                    className="text-xs font-semibold text-emerald-800 hover:text-emerald-950 underline underline-offset-2 flex items-center gap-1 cursor-pointer"
+                    className="text-xs font-semibold text-[#1c3829] hover:text-[#b85d3f] underline underline-offset-2 flex items-center gap-1 cursor-pointer font-sans"
                   >
                     <span>⚡ Namuna chek bilan sinab ko‘rish</span>
                   </button>
@@ -591,7 +546,7 @@ export const DirectPurchaseModal: React.FC<DirectPurchaseModalProps> = ({
 
               {/* Optional reference / note */}
               <div className="space-y-1">
-                <label className="text-[11px] font-bold text-stone-700">
+                <label className="text-[11px] font-bold text-stone-700 font-sans">
                   Tranzaksiya raqami yoki izoh (ixtiyoriy)
                 </label>
                 <input
@@ -599,7 +554,7 @@ export const DirectPurchaseModal: React.FC<DirectPurchaseModalProps> = ({
                   value={transactionRef}
                   onChange={e => setTransactionRef(e.target.value)}
                   placeholder="Masalan: TXN-948123 yoki Payme ID"
-                  className="w-full p-3 text-xs rounded-xl border border-stone-300 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600"
+                  className="w-full p-3 text-xs rounded-xl border border-stone-300 focus:border-[#1c3829] focus:ring-1 focus:ring-[#1c3829] font-sans"
                 />
               </div>
 
@@ -607,7 +562,7 @@ export const DirectPurchaseModal: React.FC<DirectPurchaseModalProps> = ({
               <div className="flex gap-3">
                 <button
                   onClick={() => setActiveStep(2)}
-                  className="w-1/3 py-3.5 px-4 rounded-full border border-stone-300 hover:bg-stone-100 text-stone-700 font-bold text-xs flex items-center justify-center gap-1 transition-all cursor-pointer"
+                  className="w-1/3 py-3.5 px-4 rounded-full border border-stone-300 hover:bg-stone-100 text-stone-700 font-bold text-xs flex items-center justify-center gap-1 transition-all cursor-pointer font-sans"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   <span>Orqaga</span>
@@ -615,14 +570,14 @@ export const DirectPurchaseModal: React.FC<DirectPurchaseModalProps> = ({
                 <button
                   disabled={!receiptPreview || submitting}
                   onClick={handleSubmitPurchase}
-                  className="w-2/3 py-3.5 px-5 rounded-full bg-emerald-800 hover:bg-emerald-700 disabled:opacity-40 disabled:hover:bg-emerald-800 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg transition-all active:scale-98 cursor-pointer"
+                  className="w-2/3 py-3.5 px-5 rounded-full bg-[#1c3829] hover:bg-[#284c37] disabled:opacity-40 disabled:hover:bg-[#1c3829] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg transition-all active:scale-98 cursor-pointer font-sans"
                 >
                   {submitting ? (
                     <span>Rasmiylashtirilmoqda...</span>
                   ) : (
                     <>
                       <span>Chekni yuborish va Tasdiqlash</span>
-                      <Sparkles className="w-4 h-4 text-emerald-200" />
+                      <Sparkles className="w-4 h-4 text-[#dfb15b]" />
                     </>
                   )}
                 </button>

@@ -26,6 +26,8 @@ import { UZBEKISTAN_REGIONS, mockDeliveryMethods, mockPaymentMethods } from '../
 import { DeliveryMethodType, PaymentMethodType, UzbekistanRegion } from '../../types';
 import { formatUZS } from '../../utils/formatters';
 import { marketplaceService } from '../../services/marketplaceService';
+import { RealisticCreditCard } from './RealisticCreditCard';
+import { PaymentCountdownBanner } from './PaymentCountdownBanner';
 
 export const CheckoutView: React.FC = () => {
   const {
@@ -440,52 +442,15 @@ export const CheckoutView: React.FC = () => {
             </p>
           </div>
 
-          {/* Interactive Live Card Display */}
-          <div className="relative w-full rounded-[24px] p-5 overflow-hidden text-white bg-gradient-to-br from-[#0c1f38] via-[#153b68] to-[#08172e] shadow-xl border border-white/10">
-            <div className="absolute -right-16 -top-16 w-52 h-52 bg-white/10 rounded-full blur-2xl pointer-events-none" />
-            <div className="absolute -left-10 -bottom-10 w-44 h-44 bg-emerald-500/10 rounded-full blur-xl pointer-events-none" />
-
-            <div className="relative z-10 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-7 rounded-md bg-gradient-to-tr from-amber-300 via-amber-200 to-amber-500 p-[1.5px] shadow-sm border border-amber-600/60">
-                  <div className="w-full h-full bg-amber-400/40 rounded-[2px] grid grid-cols-2 grid-rows-2 gap-[1px] p-[2px]">
-                    <div className="border border-amber-700/40 rounded-[1px]" />
-                    <div className="border border-amber-700/40 rounded-[1px]" />
-                    <div className="border border-amber-700/40 rounded-[1px]" />
-                    <div className="border border-amber-700/40 rounded-[1px]" />
-                  </div>
-                </div>
-                <Wifi className="w-4 h-4 text-white/70 rotate-90" />
-              </div>
-
-              <div className="flex items-center gap-1.5 bg-white/10 backdrop-blur-xs px-2.5 py-1 rounded-lg border border-white/20 text-xs font-black tracking-wider">
-                {rawDigitsOnly.startsWith('9860') ? 'HUMO' : rawDigitsOnly.startsWith('4') ? 'VISA' : 'UZCARD'}
-              </div>
-            </div>
-
-            <div className="relative z-10 my-5">
-              <div className="text-[10px] uppercase tracking-wider text-white/50 mb-1">Karta raqami</div>
-              <div className="font-mono text-lg sm:text-xl font-bold tracking-[0.2em] text-white drop-shadow-md">
-                {userCardNumber || '•••• •••• •••• ••••'}
-              </div>
-            </div>
-
-            <div className="relative z-10 flex items-end justify-between text-white/90">
-              <div>
-                <div className="text-[9px] uppercase tracking-wider text-white/50">Karta egasi</div>
-                <div className="text-xs font-bold tracking-wider uppercase mt-0.5">
-                  {customerName ? customerName : 'MIJOZ'}
-                </div>
-              </div>
-              <div className="text-right">
-                <div className="text-[9px] uppercase tracking-wider text-white/50">To'lovchi holati</div>
-                <div className="text-xs font-bold text-emerald-400 flex items-center gap-1">
-                  <Check className="w-3 h-3" />
-                  <span>{isCardValid ? "Karta to'liq" : `${rawDigitsOnly.length}/16 raqam`}</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          {/* Interactive Live Card Display (Real Aspect Ratio 1.586:1) */}
+          <RealisticCreditCard
+            variant="user"
+            cardNumber={userCardNumber || '•••• •••• •••• ••••'}
+            cardHolder={customerName || 'MIJOZ'}
+            bankName={rawDigitsOnly.startsWith('9860') ? 'HUMO' : rawDigitsOnly.startsWith('4') ? 'VISA' : 'UZCARD'}
+            cardBrandName={rawDigitsOnly.startsWith('9860') ? 'HUMO' : rawDigitsOnly.startsWith('4') ? 'VISA' : 'UZCARD'}
+            subTitle="Mijoz To'lov Kartasi"
+          />
 
           {/* Form input for 16-digit card */}
           <div className="bg-white border border-stone-200 rounded-2xl p-4 space-y-3 shadow-xs">
@@ -537,81 +502,68 @@ export const CheckoutView: React.FC = () => {
       {/* STEP 5: Official Business Card & Receipt Upload */}
       {step === 5 && (
         <div className="px-4 space-y-4 animate-in fade-in duration-200">
+          {/* TOP NOTICE: 7-minute countdown banner with auto-close warning */}
+          <PaymentCountdownBanner
+            initialSeconds={420}
+            onExpire={() => {
+              showToast("7 daqiqalik to'lov vaqti tugadi! Xavfsizlik maqsadida buyurtma bekor qilindi.", 'error');
+              navigate({ type: 'tab', tab: 'home' });
+            }}
+            onExtend={() => {
+              showToast("To'lov sessiyasi 7 daqiqaga uzaytirildi! ⏱", 'info');
+            }}
+          />
+
           <div className="space-y-1">
-            <h2 className="text-base font-bold text-stone-900 flex items-center gap-2">
-              <Building2 className="w-5 h-5 text-emerald-700" />
+            <h2 className="text-base font-bold text-stone-900 flex items-center gap-2 font-sans">
+              <Building2 className="w-5 h-5 text-[#1c3829]" />
               <span>5-qadam: Biznes kartamizga to'lov & Chekni yuborish</span>
             </h2>
-            <p className="text-xs text-stone-500">
+            <p className="text-xs text-stone-500 font-sans">
               Quyidagi rasmiy biznes kartamizga kerakli summani to'lang va to'lov kvitansiyasini (cheki) yuklang.
             </p>
           </div>
 
-          {/* Official Business Card presentation */}
-          <div className="relative w-full rounded-[24px] p-5 overflow-hidden text-white bg-gradient-to-br from-[#063323] via-[#0b543b] to-[#042418] shadow-xl border border-emerald-500/30">
-            <div className="absolute -right-12 -top-12 w-48 h-48 bg-emerald-400/15 rounded-full blur-2xl pointer-events-none" />
-            <div className="absolute -left-10 -bottom-10 w-40 h-40 bg-amber-400/10 rounded-full blur-xl pointer-events-none" />
+          {/* Official Business Card presentation (Real Aspect Ratio 1.586:1) */}
+          <RealisticCreditCard
+            variant="business"
+            cardNumber={OFFICIAL_BUSINESS_CARD.cardNumber}
+            cardHolder={OFFICIAL_BUSINESS_CARD.cardHolder}
+            bankName={OFFICIAL_BUSINESS_CARD.bankName}
+            inn={OFFICIAL_BUSINESS_CARD.inn}
+            cardBrandName="UZCARD BUSINESS"
+            subTitle="Rasmiy Korporativ Hisob"
+            onCopy={handleCopyBusinessCard}
+            isCopied={copiedCard}
+          />
 
-            <div className="relative z-10 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Building2 className="w-5 h-5 text-emerald-300" />
-                <span className="text-xs font-bold tracking-wider text-emerald-200">RASMIY BIZNES KARTA</span>
-              </div>
-              <div className="px-2.5 py-0.5 bg-emerald-400/20 border border-emerald-300/30 rounded-full text-[10px] font-bold text-emerald-100">
-                {OFFICIAL_BUSINESS_CARD.bankName}
+          {/* Exact amount quick-copy bar */}
+          <div className="p-3.5 bg-[#faf7f2] border border-[#e6ded2] rounded-2xl flex items-center justify-between gap-3 shadow-xs">
+            <div>
+              <span className="text-[10px] uppercase font-bold text-[#1c3829] tracking-wider font-sans">
+                To'lanishi kerak bo'lgan summa
+              </span>
+              <div className="text-lg sm:text-xl font-extrabold text-[#1c3829] font-price">
+                {formatUZS(totalAmount)}
               </div>
             </div>
-
-            <div className="relative z-10 my-4">
-              <div className="text-[10px] uppercase tracking-wider text-emerald-200/70">To'lov uchun karta raqami</div>
-              <div className="flex items-center justify-between gap-2 mt-1">
-                <span className="font-mono text-lg sm:text-xl font-black tracking-[0.18em] text-white">
-                  {OFFICIAL_BUSINESS_CARD.cardNumber}
-                </span>
-                <button
-                  type="button"
-                  onClick={handleCopyBusinessCard}
-                  className="px-3 py-1.5 bg-white text-stone-900 hover:bg-emerald-50 font-bold text-xs rounded-lg transition-colors flex items-center gap-1.5 shadow-xs cursor-pointer active:scale-95 shrink-0"
-                >
-                  {copiedCard ? (
-                    <>
-                      <Check className="w-3.5 h-3.5 text-emerald-600" />
-                      <span className="text-emerald-700">Nusxalandi</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-3.5 h-3.5" />
-                      <span>Nusxalash</span>
-                    </>
-                  )}
-                </button>
-              </div>
-            </div>
-
-            <div className="relative z-10 flex items-end justify-between pt-2 border-t border-white/10 text-white/90">
-              <div>
-                <div className="text-[9px] uppercase tracking-wider text-emerald-200/70">Karta egasi</div>
-                <div className="text-xs sm:text-sm font-bold tracking-wide uppercase mt-0.5">
-                  {OFFICIAL_BUSINESS_CARD.cardHolder}
-                </div>
-              </div>
-              <div className="text-right">
-                <div className="text-[9px] uppercase tracking-wider text-emerald-200/70">To'lov summasi</div>
-                <div className="flex items-center gap-1.5">
-                  <span className="font-black text-sm sm:text-base text-amber-300">
-                    {formatUZS(totalAmount)}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={handleCopyAmount}
-                    title="Summani nusxalash"
-                    className="p-1 rounded bg-white/15 hover:bg-white/30 text-white transition-colors cursor-pointer"
-                  >
-                    {copiedAmount ? <Check className="w-3 h-3 text-amber-300" /> : <Copy className="w-3 h-3" />}
-                  </button>
-                </div>
-              </div>
-            </div>
+            <button
+              type="button"
+              onClick={handleCopyAmount}
+              className="px-3.5 py-2 bg-[#1c3829] hover:bg-[#284c37] text-white text-xs font-bold rounded-xl transition-all flex items-center gap-1.5 shadow-xs cursor-pointer active:scale-95 font-sans shrink-0"
+            >
+              {copiedAmount ? (
+                <>
+                  <Check className="w-3.5 h-3.5 text-emerald-300 stroke-[3]" />
+                  <span>Nusxalandi</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="w-3.5 h-3.5 text-[#dfb15b]" />
+                  <span>Summani nusxalash</span>
+                </>
+              )}
+            </button>
           </div>
 
           {/* Payment Guidance */}

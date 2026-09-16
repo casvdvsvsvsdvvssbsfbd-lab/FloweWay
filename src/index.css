@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  /* Plant Market Botanical & Warm Travertine Palette */
+  /* FlowerWay Botanical & Warm Travertine Palette */
   --color-bg: #faf7f2;
   --color-bg-subtle: #f4efe6;
   --color-surface: #ffffff;
@@ -35,14 +35,33 @@
   --smooth-ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-body {
+html, body {
   background-color: var(--color-bg);
   color: var(--color-text-primary);
   font-family: var(--font-sans);
   letter-spacing: -0.012em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  width: 100%;
+  max-width: 100vw;
   overflow-x: hidden;
+  position: relative;
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+#root {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 h1, h2, h3, .font-display {
@@ -51,6 +70,14 @@ h1, h2, h3, .font-display {
 
 .font-cormorant {
   font-family: var(--font-serif);
+}
+
+/* Highly Legible, Modern Price Numerals - Clean, crisp tabular figures without descenders */
+.font-price, .price-text {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+  letter-spacing: -0.02em;
 }
 
 /* High-Performance Hardware-Accelerated Elevations & Cards */

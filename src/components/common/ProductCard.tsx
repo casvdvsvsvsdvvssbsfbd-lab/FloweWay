@@ -123,7 +123,7 @@ const ProductCardComponent: React.FC<ProductCardProps> = ({ product }) => {
           </div>
 
           {/* Product Title */}
-          <h3 className="text-xs sm:text-[13.5px] font-semibold text-[#1c1917] leading-snug line-clamp-2 group-hover:text-[#b85d3f] transition-colors font-serif">
+          <h3 className="text-xs sm:text-[13.5px] font-semibold text-[#1c1917] leading-snug line-clamp-2 min-h-[2.1rem] sm:min-h-[2.4rem] group-hover:text-[#b85d3f] transition-colors font-serif">
             {product.name}
           </h3>
 
@@ -139,21 +139,23 @@ const ProductCardComponent: React.FC<ProductCardProps> = ({ product }) => {
 
         {/* Pricing Section */}
         <div className="pt-1.5 border-t border-[#f0eae1]">
-          {/* Installment Badge */}
-          {product.price >= 80000 && (
-            <div className="inline-block bg-[#fdf6e7] text-[#926d1d] border border-[#ebd9a9] text-[9.5px] font-bold px-1.5 py-0.5 rounded mb-1 font-serif">
-              oyiga {monthlyPayment.toLocaleString('uz-UZ')} so'm
-            </div>
-          )}
+          {/* Installment Badge container for uniform height */}
+          <div className="min-h-[20px] flex items-center mb-0.5">
+            {product.price >= 80000 ? (
+              <div className="inline-block bg-[#fdf6e7] text-[#926d1d] border border-[#ebd9a9] text-[9px] sm:text-[9.5px] font-bold px-1.5 py-0.2 rounded font-sans truncate">
+                oyiga {monthlyPayment.toLocaleString('uz-UZ')} so'm
+              </div>
+            ) : null}
+          </div>
 
           <div className="flex items-center justify-between mt-0.5">
             <div>
-              <div className="text-sm sm:text-base font-bold text-[#1c1917] font-display">
+              <div className="text-sm sm:text-base font-extrabold text-[#1c1917] font-price tracking-tight">
                 {formatUZS(product.price)}
               </div>
 
               {hasDiscount && product.oldPrice && (
-                <div className="text-[10px] sm:text-[11px] text-stone-400 line-through">
+                <div className="text-[10px] sm:text-[11px] text-stone-400 line-through font-price">
                   {formatUZS(product.oldPrice)}
                 </div>
               )}

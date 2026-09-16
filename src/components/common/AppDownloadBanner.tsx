@@ -20,7 +20,7 @@ export const AppDownloadBanner: React.FC = () => {
         {/* Text Details */}
         <div className="flex items-center gap-2 text-center">
           <span className="text-xs sm:text-sm font-semibold tracking-tight text-emerald-950">
-            Plant Market ilovasini yuklab oling
+            FlowerWay ilovasini yuklab oling
           </span>
           <span className="hidden sm:inline text-emerald-400 text-xs">·</span>
           <span className="text-[11px] text-emerald-700 tracking-tight font-medium hidden sm:inline">

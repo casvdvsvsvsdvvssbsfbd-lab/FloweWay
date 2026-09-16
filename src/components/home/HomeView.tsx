@@ -220,12 +220,12 @@ export const HomeView: React.FC = () => {
   }, [activeTab, trendingPlants, newArrivals, potsAndPlanters, careAndSoil, bouquets]);
 
   return (
-    <div className="w-full max-w-7xl mx-auto space-y-7 sm:space-y-10 pb-12 font-serif">
+    <div className="w-full max-w-full min-w-0 space-y-6 sm:space-y-10 pb-12 font-serif overflow-x-hidden">
       {/* 1. Search Bar & Trending Quick Pills */}
-      <section id="home-search-section" className="w-full space-y-2.5 pt-1 md:pt-2">
-        <div className="flex flex-col md:flex-row md:items-center gap-2.5 sm:gap-3">
+      <section id="home-search-section" className="w-full min-w-0 space-y-2.5 pt-1 md:pt-2">
+        <div className="flex flex-col md:flex-row md:items-center gap-2.5 sm:gap-3 w-full min-w-0">
           {/* Search Input */}
-          <div className="relative flex items-center flex-1">
+          <div className="relative flex items-center flex-1 w-full min-w-0">
             <Search className="w-4.5 h-4.5 text-[#8c857b] absolute left-3.5 pointer-events-none stroke-[2.2]" />
             <input
               id="home-search-input"
@@ -250,7 +250,7 @@ export const HomeView: React.FC = () => {
           </div>
 
           {/* Quick query pills */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 scrollbar-none text-[11px] shrink-0">
+          <div className="w-full md:w-auto min-w-0 flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 scrollbar-none text-[11px]">
             <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 shrink-0 mr-0.5">
               Ommabop:
             </span>
@@ -559,16 +559,16 @@ export const HomeView: React.FC = () => {
                   </p>
 
                   <div className="flex items-baseline gap-3 pt-1 justify-center md:justify-start">
-                    <span className="text-xl sm:text-2xl font-bold text-[#dfb15b] font-display font-mono">
+                    <span className="text-xl sm:text-2xl font-extrabold text-[#dfb15b] font-price">
                       {formatUZS(flashSaleProduct.price)}
                     </span>
                     {flashSaleProduct.oldPrice && (
-                      <span className="text-sm text-stone-300 line-through font-mono">
+                      <span className="text-sm text-stone-300 line-through font-price">
                         {formatUZS(flashSaleProduct.oldPrice)}
                       </span>
                     )}
                     {flashSaleProduct.discountPercent && (
-                      <span className="px-2 py-0.5 bg-[#b85d3f] text-white font-bold text-xs rounded-md border border-white/30 font-mono">
+                      <span className="px-2 py-0.5 bg-[#b85d3f] text-white font-bold text-xs rounded-md border border-white/30 font-sans">
                         -{flashSaleProduct.discountPercent}% Chegirma
                       </span>
                     )}
@@ -665,7 +665,7 @@ export const HomeView: React.FC = () => {
               </div>
 
               {/* Discovery Tabs */}
-              <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none">
+              <div className="w-full sm:w-auto min-w-0 flex items-center gap-1.5 overflow-x-auto scrollbar-none pb-1">
                 {[
                   { id: 'trending', label: '🔥 Ommabop' },
                   { id: 'new', label: '✨ Yangi kelganlar' },

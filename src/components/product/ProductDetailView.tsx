@@ -63,10 +63,30 @@ export const ProductDetailView: React.FC<ProductDetailViewProps> = ({ productId 
     marketplaceService.getRecommendations(productId).then(setRecommendations);
   }, [productId]);
 
+  useEffect(() => {
+    if (showCameraModal || showPurchaseModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [showCameraModal, showPurchaseModal]);
+
   if (!product) {
     return (
-      <div className="py-20 text-center text-stone-500 text-xs sm:text-sm font-serif">
-        O'simlik ma'lumotlari yuklanmoqda...
+      <div className="w-full max-w-7xl mx-auto py-8 space-y-6 animate-pulse">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10">
+          <div className="aspect-square bg-stone-200/70 rounded-3xl" />
+          <div className="space-y-4">
+            <div className="h-4 bg-stone-200/70 rounded w-1/3" />
+            <div className="h-8 bg-stone-200/70 rounded w-3/4" />
+            <div className="h-6 bg-stone-200/70 rounded w-1/2" />
+            <div className="h-24 bg-stone-200/70 rounded-2xl w-full" />
+            <div className="h-12 bg-stone-200/70 rounded-2xl w-full" />
+          </div>
+        </div>
       </div>
     );
   }
@@ -252,16 +272,16 @@ export const ProductDetailView: React.FC<ProductDetailViewProps> = ({ productId 
           {/* Price */}
           <div className="space-y-0.5">
             <div className="flex items-baseline gap-2.5">
-              <span className="text-xl sm:text-2xl font-bold text-[#1c3829] tracking-tight font-display font-mono">
+              <span className="text-xl sm:text-2xl font-extrabold text-[#1c3829] tracking-tight font-price">
                 {formatUZS(product.price)}
               </span>
               {product.oldPrice && product.oldPrice > product.price && (
-                <span className="text-sm text-stone-400 line-through font-normal font-mono">
+                <span className="text-sm text-stone-400 line-through font-normal font-price">
                   {formatUZS(product.oldPrice)}
                 </span>
               )}
             </div>
-            <p className="text-[11px] text-stone-500 font-serif">QQS narx ichida. 300 000 so'mdan yuqori buyurtmalarga bepul yetkazish.</p>
+            <p className="text-[11px] text-stone-500 font-sans">QQS narx ichida. 300 000 so'mdan yuqori buyurtmalarga bepul yetkazish.</p>
           </div>
 
           {/* Size Selector if available */}
@@ -535,10 +555,10 @@ export const ProductDetailView: React.FC<ProductDetailViewProps> = ({ productId 
       )}
 
       {/* Mobile Sticky Quick Action Bar (Visible only on mobile/small devices) */}
-      <div className="md:hidden fixed bottom-safe left-0 right-0 z-30 px-4 py-2.5 bg-white/92 backdrop-blur-lg border-t border-[#e7e0d3] shadow-lg flex items-center justify-between gap-2.5">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-30 px-4 pt-2.5 pb-safe bg-white/95 backdrop-blur-xl border-t border-[#e7e0d3] shadow-[0_-4px_20px_rgba(0,0,0,0.06)] flex items-center justify-between gap-2.5">
         <div className="flex flex-col">
-          <span className="text-[10px] text-stone-500 font-serif">Umumiy narx:</span>
-          <span className="text-sm font-bold text-[#1c1917] font-display font-mono">
+          <span className="text-[10px] text-stone-500 font-sans">Umumiy narx:</span>
+          <span className="text-sm font-extrabold text-[#1c1917] font-price">
             {formatUZS(product.price * quantity)}
           </span>
         </div>

@@ -36,8 +36,8 @@ export const Header: React.FC = () => {
   const [promoIndex, setPromoIndex] = useState(0);
 
   const promos = [
-    { icon: Truck, text: "🌿 Plant Market • 250,000 so'mdan yuqori xaridlarga O'zbekiston bo'ylab BEPUL yetkazib berish" },
-    { icon: Zap, text: "⚡️ Sara Xona Gullari va Sopol Tuvaklar — Toshkentda 3 soatda yetkaziladi" },
+    { icon: Truck, text: "🌸 FlowerWay • 250,000 so'mdan yuqori xaridlarga O'zbekiston bo'ylab BEPUL yetkazib berish" },
+    { icon: Zap, text: "⚡️ Sara Gullar, Xona O'simliklari va Sopol Tuvaklar — Toshkentda 3 soatda yetkaziladi" },
     { icon: ShieldCheck, text: "🪴 14 kunlik sog'lomlik kafolati & O'simlik shifokori bepul konsultatsiyasi" },
   ];
 
@@ -73,9 +73,9 @@ export const Header: React.FC = () => {
   return (
     <div className="w-full sticky top-0 z-40 bg-[#faf7f2] shadow-xs">
       {/* 1. Botanical Announcement Bar with Smooth Transition */}
-      <div className="w-full bg-[#1c3829] text-white text-[11px] font-medium py-1.5 px-3 border-b border-[#294e3b]">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-2 mx-auto sm:mx-0 overflow-hidden text-center sm:text-left h-5">
+      <div className="w-full bg-[#1c3829] text-white text-[11px] font-medium py-1.5 px-2.5 sm:px-4 border-b border-[#294e3b]">
+        <div className="max-w-7xl mx-auto flex items-center justify-between min-w-0">
+          <div className="flex items-center gap-2 mx-auto md:mx-0 overflow-hidden text-center md:text-left h-5 min-w-0 max-w-full flex-1 justify-center md:justify-start">
             <AnimatePresence mode="wait">
               <motion.div
                 key={promoIndex}
@@ -83,17 +83,17 @@ export const Header: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
                 transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                className="flex items-center gap-2"
+                className="flex items-center gap-1.5 sm:gap-2 min-w-0 max-w-full overflow-hidden"
               >
                 <CurrentPromoIcon className="w-3.5 h-3.5 text-[#d4af37] shrink-0" />
-                <span className="truncate text-stone-200 tracking-tight font-serif">
+                <span className="truncate text-stone-200 tracking-tight font-serif min-w-0 block text-[10.5px] sm:text-[11px]">
                   {promos[promoIndex].text}
                 </span>
               </motion.div>
             </AnimatePresence>
           </div>
 
-          <div className="hidden sm:flex items-center gap-4 text-stone-300 text-[11px] shrink-0">
+          <div className="hidden md:flex items-center gap-4 text-stone-300 text-[11px] shrink-0 ml-4">
             <button
               onClick={() => navigate({ type: 'plant_care_guide' })}
               className="hover:text-[#d4af37] transition-colors cursor-pointer flex items-center gap-1 font-serif"
@@ -110,11 +110,11 @@ export const Header: React.FC = () => {
       {/* 2. Main Header with Crystal Frosted Glass */}
       <header
         id="main-ecommerce-header"
-        className="w-full glass-header transition-all duration-300"
+        className="w-full glass-header transition-all duration-300 min-w-0"
       >
-        <div className="max-w-7xl mx-auto px-3 sm:px-5 lg:px-8 h-15 sm:h-17 flex items-center justify-between gap-2.5 sm:gap-4">
+        <div className="max-w-7xl mx-auto px-2.5 sm:px-5 lg:px-8 h-14 sm:h-17 flex items-center justify-between gap-1.5 sm:gap-4 min-w-0">
           {/* Left section: Logo & optional Back button */}
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 min-w-0">
             {!isHome && canGoBack && (
               <motion.button
                 id="header-back-btn"
@@ -122,43 +122,43 @@ export const Header: React.FC = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.92 }}
                 onClick={goBack}
-                className="w-9 h-9 rounded-full glass-pill hover:bg-white text-stone-800 flex items-center justify-center transition-all cursor-pointer shadow-2xs"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full glass-pill hover:bg-white text-stone-800 flex items-center justify-center transition-all cursor-pointer shadow-2xs shrink-0"
                 aria-label="Orqaga"
               >
                 <ArrowLeft className="w-4 h-4 stroke-[2.2]" />
               </motion.button>
             )}
 
-            {/* Plant Market Logo */}
+            {/* FlowerWay Brand Logo */}
             <motion.button
               id="header-brand-logo"
               type="button"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => navigate({ type: 'tab', tab: 'home' })}
-              className="flex items-center gap-2.5 group cursor-pointer text-left select-none"
+              className="flex items-center gap-2 group cursor-pointer text-left select-none shrink-0"
             >
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-gradient-to-br from-[#1c3829] via-[#284c37] to-[#b85d3f] text-white flex items-center justify-center shrink-0 shadow-md border border-white/40 ring-1 ring-[#dfb15b]/30 group-hover:shadow-lg transition-all">
-                <Sprout className="w-5 h-5 stroke-[2] text-[#fff6d6]" />
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-gradient-to-br from-[#1c3829] via-[#284c37] to-[#b85d3f] text-white flex items-center justify-center shrink-0 shadow-md border border-white/40 ring-1 ring-[#dfb15b]/30 group-hover:shadow-lg transition-all">
+                <Sprout className="w-4.5 h-4.5 sm:w-5 sm:h-5 stroke-[2] text-[#fff6d6]" />
               </div>
               <div className="flex flex-col">
-                <div className="flex items-baseline gap-1.5">
+                <div className="flex items-baseline gap-1 sm:gap-1.5">
                   <span className="text-base sm:text-xl font-bold tracking-tight text-[#1c1917] font-display leading-tight">
-                    Plant<span className="text-[#b85d3f]">Market</span>
+                    Flower<span className="text-[#b85d3f]">Way</span>
                   </span>
-                  <span className="hidden min-[480px]:inline-block px-1.5 py-0.2 bg-[#fdf6e7]/90 backdrop-blur-xs text-[#926d1d] border border-[#ebd9a9] font-bold text-[9px] rounded-md font-serif tracking-wider shadow-2xs">
+                  <span className="hidden min-[520px]:inline-block px-1.5 py-0.2 bg-[#fdf6e7]/90 backdrop-blur-xs text-[#926d1d] border border-[#ebd9a9] font-bold text-[9px] rounded-md font-sans tracking-wider shadow-2xs">
                     Rasmiy
                   </span>
                 </div>
-                <span className="text-[10px] text-[#78716c] font-serif hidden sm:block leading-none">
-                  O'simliklar & Bog'dorchilik Bozori
+                <span className="text-[10px] text-[#78716c] font-sans hidden sm:block leading-none">
+                  Gullar & O'simliklar Bozori
                 </span>
               </div>
             </motion.button>
           </div>
 
           {/* Center: Search Bar with Translucent Glass Capsule */}
-          <div className="hidden md:flex flex-1 max-w-lg lg:max-w-xl mx-2">
+          <div className="hidden md:flex flex-1 max-w-lg lg:max-w-xl mx-2 min-w-0">
             <form
               onSubmit={handleSearchSubmit}
               className="w-full relative flex items-center"
@@ -200,33 +200,20 @@ export const Header: React.FC = () => {
           </div>
 
           {/* Right Action Icons in Frosted Glass */}
-          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-            {/* Sell Product / Add Listing Button with Glass Terracotta */}
+          <div className="flex items-center gap-1 sm:gap-2.5 shrink-0">
+            {/* Sell Product / Add Listing Button */}
             <motion.button
               id="header-sell-product-btn"
               type="button"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setIsAddProductModalOpen(true)}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-[#b85d3f] to-[#96472f] hover:from-[#96472f] hover:to-[#7f3923] text-white text-xs font-bold shadow-xs transition-all cursor-pointer border border-white/25"
+              className="flex items-center justify-center gap-1 h-8 sm:h-9 px-2 sm:px-3.5 rounded-xl bg-gradient-to-r from-[#b85d3f] to-[#96472f] hover:from-[#96472f] hover:to-[#7f3923] text-white text-xs font-bold shadow-2xs transition-all cursor-pointer border border-white/25 shrink-0"
               title="Mahsulotni sotuvga qo'yish"
             >
-              <PlusCircle className="w-4 h-4 text-[#ffe6dd]" />
-              <span className="hidden min-[480px]:inline font-serif">Sotuvga qo‘yish</span>
-              <span className="min-[480px]:hidden font-serif">Sotish</span>
-            </motion.button>
-
-            {/* Mobile Search Button */}
-            <motion.button
-              id="mobile-search-trigger-btn"
-              type="button"
-              whileTap={{ scale: 0.92 }}
-              onClick={() => navigate({ type: 'tab', tab: 'search' })}
-              className="md:hidden w-9 h-9 rounded-xl text-stone-800 hover:bg-white/90 flex items-center justify-center transition-all cursor-pointer border border-[#e7e0d3] glass-pill shadow-2xs"
-              aria-label="Qidirish"
-              title="Qidirish"
-            >
-              <Search className="w-4.5 h-4.5 stroke-[2]" />
+              <PlusCircle className="w-4 h-4 text-[#ffe6dd] shrink-0" />
+              <span className="hidden sm:inline font-serif">Sotuvga qo‘yish</span>
+              <span className="hidden min-[420px]:inline sm:hidden font-serif text-[11px]">Sotish</span>
             </motion.button>
 
             {/* Notification Button */}
@@ -236,16 +223,16 @@ export const Header: React.FC = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.92 }}
               onClick={() => navigate({ type: 'notifications' })}
-              className="w-9 h-9 rounded-xl glass-pill text-stone-800 hover:bg-white flex items-center justify-center transition-all relative cursor-pointer shadow-2xs"
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl glass-pill text-stone-800 hover:bg-white flex items-center justify-center transition-all relative cursor-pointer shadow-2xs shrink-0"
               aria-label="Bildirishnomalar"
               title="Bildirishnomalar"
             >
-              <Bell className="w-4.5 h-4.5 stroke-[1.8]" />
+              <Bell className="w-4 h-4 sm:w-4.5 sm:h-4.5 stroke-[1.8]" />
               {unreadNotifCount > 0 && (
                 <motion.span
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  className="absolute -top-1 -right-1 min-w-[17px] h-[17px] px-1 bg-[#b85d3f] text-white text-[9px] font-bold rounded-full flex items-center justify-center ring-2 ring-white shadow-xs font-mono leading-none"
+                  className="absolute -top-1 -right-1 min-w-[15px] sm:min-w-[17px] h-[15px] sm:h-[17px] px-0.5 sm:px-1 bg-[#b85d3f] text-white text-[8.5px] sm:text-[9px] font-bold rounded-full flex items-center justify-center ring-2 ring-white shadow-xs font-mono leading-none"
                 >
                   {unreadNotifCount > 99 ? '99+' : unreadNotifCount}
                 </motion.span>
@@ -259,7 +246,7 @@ export const Header: React.FC = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.92 }}
               onClick={() => navigate({ type: 'favorites' })}
-              className="hidden sm:flex w-9 h-9 rounded-xl text-stone-800 hover:bg-white glass-pill items-center justify-center transition-all relative cursor-pointer shadow-2xs"
+              className="hidden md:flex w-9 h-9 rounded-xl text-stone-800 hover:bg-white glass-pill items-center justify-center transition-all relative cursor-pointer shadow-2xs shrink-0"
               aria-label="Saralanganlar"
               title="Saralanganlar"
             >
@@ -286,11 +273,11 @@ export const Header: React.FC = () => {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.94 }}
               onClick={() => navigate({ type: 'tab', tab: 'cart' })}
-              className="h-9 px-3.5 sm:px-4 bg-[#1c3829] hover:bg-[#284c37] text-white rounded-xl flex items-center gap-2 transition-all cursor-pointer shadow-xs border border-white/20"
+              className="h-8 sm:h-9 px-2.5 sm:px-4 bg-[#1c3829] hover:bg-[#284c37] text-white rounded-xl flex items-center gap-1.5 sm:gap-2 transition-all cursor-pointer shadow-xs border border-white/20 shrink-0"
               aria-label="Savat"
               title="Savat"
             >
-              <ShoppingBag className="w-4 h-4 text-[#dfb15b] stroke-[2.2]" />
+              <ShoppingBag className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#dfb15b] stroke-[2.2]" />
               <span className="text-xs font-bold font-mono tracking-tight">{cartTotalCount}</span>
               {cartTotalAmount > 0 && (
                 <span className="hidden lg:inline-block text-[11px] text-stone-200 font-bold border-l border-emerald-900/60 pl-2 font-mono">
@@ -306,7 +293,7 @@ export const Header: React.FC = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.92 }}
               onClick={() => navigate({ type: 'tab', tab: 'profile' })}
-              className="hidden sm:flex w-9 h-9 rounded-xl text-stone-800 hover:bg-white glass-pill items-center justify-center transition-all cursor-pointer shadow-2xs"
+              className="hidden md:flex w-9 h-9 rounded-xl text-stone-800 hover:bg-white glass-pill items-center justify-center transition-all cursor-pointer shadow-2xs shrink-0"
               aria-label="Profil"
               title="Profil"
             >

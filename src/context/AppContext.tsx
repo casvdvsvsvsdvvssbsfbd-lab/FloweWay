@@ -137,15 +137,53 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setAllProducts(prev => [product, ...prev]);
   };
 
+  // Local storage helpers
+  const CART_KEY = 'flowerway_cart_v1';
+  const SAVED_KEY = 'flowerway_saved_v1';
+  const FAVS_KEY = 'flowerway_favs_v1';
+
+  const getStored = <T,>(key: string, fallback: T): T => {
+    try {
+      const val = localStorage.getItem(key);
+      return val ? JSON.parse(val) : fallback;
+    } catch {
+      return fallback;
+    }
+  };
+
   // Cart
-  const [cart, setCart] = useState<CartItem[]>(() => [
-    { id: 'cart-item-monstera-L', product: mockProducts[0], quantity: 1, selectedSize: 'L' },
-    { id: 'cart-item-terracotta-M', product: mockProducts[5], quantity: 1, selectedSize: 'M' },
-  ]);
-  const [savedForLater, setSavedForLater] = useState<SavedForLaterItem[]>([]);
+  const [cart, setCart] = useState<CartItem[]>(() =>
+    getStored<CartItem[]>(CART_KEY, [
+      { id: 'cart-item-monstera-L', product: mockProducts[0], quantity: 1, selectedSize: 'L' },
+      { id: 'cart-item-terracotta-M', product: mockProducts[5], quantity: 1, selectedSize: 'M' },
+    ])
+  );
+  const [savedForLater, setSavedForLater] = useState<SavedForLaterItem[]>(() =>
+    getStored<SavedForLaterItem[]>(SAVED_KEY, [])
+  );
 
   // Favorites
-  const [favoriteIds, setFavoriteIds] = useState<string[]>(['prod-monstera-deliciosa', 'prod-phalaenopsis-orchid']);
+  const [favoriteIds, setFavoriteIds] = useState<string[]>(() =>
+    getStored<string[]>(FAVS_KEY, ['prod-monstera-deliciosa', 'prod-phalaenopsis-orchid'])
+  );
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(CART_KEY, JSON.stringify(cart));
+    } catch {}
+  }, [cart]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(SAVED_KEY, JSON.stringify(savedForLater));
+    } catch {}
+  }, [savedForLater]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(FAVS_KEY, JSON.stringify(favoriteIds));
+    } catch {}
+  }, [favoriteIds]);
 
   // Orders
   const [orders, setOrders] = useState<Order[]>([]);

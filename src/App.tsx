@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { AppProvider, useApp } from './context/AppContext';
 import { Header } from './components/common/Header';
@@ -88,10 +88,21 @@ const MainAppContent: React.FC = () => {
     }
   };
 
-  const showBottomNav = currentView.type !== 'checkout';
+  const showBottomNav = currentView.type !== 'checkout' && currentView.type !== 'product_detail';
+
+  useEffect(() => {
+    if (isAddProductModalOpen || isTelegramModalOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isAddProductModalOpen, isTelegramModalOpen]);
 
   return (
-    <div className="min-h-screen-dvh bg-[#faf7f2] text-[#1c1917] flex flex-col font-sans antialiased relative overflow-x-hidden">
+    <div className="min-h-screen-dvh w-full max-w-[100vw] bg-[#faf7f2] text-[#1c1917] flex flex-col font-sans antialiased relative overflow-x-hidden">
       {/* Universal Sticky Header */}
       <Header />
 
@@ -99,7 +110,7 @@ const MainAppContent: React.FC = () => {
       <Toast />
 
       {/* Main Content Area with Smooth Hardware-Accelerated Transitions */}
-      <main className="flex-1 w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-4 sm:pt-6 pb-28 md:pb-16 relative z-10">
+      <main className="flex-1 w-full max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 pt-3 sm:pt-6 pb-28 md:pb-16 relative z-10 min-w-0 overflow-x-hidden">
         <AnimatePresence mode="wait">
           <motion.div
             key={getViewKey()}

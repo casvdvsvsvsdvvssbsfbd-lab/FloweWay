@@ -53,9 +53,9 @@ export const TelegramSettingsModal: React.FC<TelegramSettingsModalProps> = ({
 
   const handleSendTestNotification = () => {
     setTestSent(true);
-    const mockOrderNum = 'PM-92841';
+    const mockOrderNum = 'FW-92841';
     const sampleMsg =
-      `🌿 <b>PLANT MARKET | BUYURTMA #${mockOrderNum}</b>\n\n` +
+      `🌸 <b>FLOWERWAY | BUYURTMA #${mockOrderNum}</b>\n\n` +
       `👤 <b>Xaridor:</b> ${settings.chatId || '@foydalanuvchi'}\n` +
       `⏱ <b>Holati:</b> ✅ To'lov cheki tasdiqlandi. Buyurtma yig'ilmoqda!\n` +
       `📦 <b>Tarkibi:</b> 1x Monstera Deliciosa, 1x Terrakota Tuvak (M)\n` +

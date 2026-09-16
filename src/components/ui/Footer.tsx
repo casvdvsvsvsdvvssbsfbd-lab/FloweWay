@@ -56,17 +56,17 @@ export const Footer: React.FC = () => {
                 <Sprout className="w-5 h-5 stroke-[2.2]" />
               </div>
               <div>
-                <span className="text-lg font-bold text-white tracking-tight font-display">Plant Market</span>
-                <span className="block text-[10px] text-[#dfb15b] font-serif uppercase tracking-widest -mt-0.5">O'simliklar & Bog'dorchilik Bozori</span>
+                <span className="text-lg font-bold text-white tracking-tight font-display">FlowerWay</span>
+                <span className="block text-[10px] text-[#dfb15b] font-sans uppercase tracking-widest -mt-0.5">Gullar & O'simliklar Bozori</span>
               </div>
             </div>
-            <p className="text-xs text-stone-400 max-w-sm leading-relaxed font-serif">
+            <p className="text-xs text-stone-400 max-w-sm leading-relaxed font-sans">
               O'zbekistondagi eng yirik tirik gullar, terrakota tuvaklar va bog'dorchilik mahsulotlari bozori. Sog'lom xona o'simliklari, professional substratlar va biologik oziqlar.
             </p>
             <div className="flex items-center gap-2 pt-1">
               <button
-                onClick={() => window.open('https://t.me/plantmarket_support', '_blank')}
-                className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1c3829] hover:bg-[#284c37] border border-[#2a4e3a] text-white rounded-xl text-xs font-bold transition-colors cursor-pointer font-serif"
+                onClick={() => window.open('https://t.me/flowerway_support', '_blank')}
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1c3829] hover:bg-[#284c37] border border-[#2a4e3a] text-white rounded-xl text-xs font-bold transition-colors cursor-pointer font-sans"
               >
                 <Send className="w-3.5 h-3.5 text-[#dfb15b]" />
                 <span>Telegram Maslahat</span>
@@ -194,9 +194,9 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Strip: Payments & Copyright */}
-        <div className="pt-8 border-t border-[#223f2f] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-400 font-serif">
+        <div className="pt-8 border-t border-[#223f2f] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-400 font-sans">
           <div>
-            © 2026 Plant Market LLC. Barcha huquqlar himoyalangan.
+            © 2026 FlowerWay LLC. Barcha huquqlar himoyalangan.
           </div>
 
           {/* Payment Methods Badges */}

@@ -1,11 +1,11 @@
 import { Order, TelegramBotSettings } from '../types';
 import { formatUZS } from '../utils/formatters';
 
-const STORAGE_KEY = 'plant_market_telegram_settings_v1';
+const STORAGE_KEY = 'flowerway_telegram_settings_v1';
 
 export const defaultTelegramSettings: TelegramBotSettings = {
   enabled: true,
-  botUsername: 'PlantMarketUz_bot',
+  botUsername: 'FlowerWayUz_bot',
   chatId: '@alisher_botanist',
   orderStatusAlerts: true,
   paymentReceiptAlerts: true,
@@ -47,20 +47,20 @@ export class TelegramBotService {
   } {
     const time = new Date().toLocaleTimeString('uz-UZ', { hour: '2-digit', minute: '2-digit' });
     const itemsList = order.items
-      .map(it => `  • <b>${it.product.name}</b> (${it.quantity} dona) — ${formatUZS(it.price * it.quantity)}`)
+      .map(it => `  • <b>${it.productName}</b> (${it.quantity} dona) — ${formatUZS(it.totalPrice)}`)
       .join('\n');
 
     const paymentText =
-      order.paymentMethod === 'direct_card'
-        ? `💳 Karta orqali to'lov (Kvitansiya: ${order.paymentReceiptName || 'Yuklangan'})`
-        : order.paymentMethod === 'cash_on_delivery'
+      order.paymentReceiptName || order.paymentReceiptUrl
+        ? `💳 Biznes kartaga to'lov (Chek: ${order.paymentReceiptName || 'Yuklangan'})`
+        : order.paymentMethod === 'cash'
         ? "💵 Qabul qilinganda naqd to'lov"
-        : `💳 Onlayn to'lov (${order.paymentMethod.toUpperCase()})`;
+        : `💳 To'lov usuli: ${String(order.paymentMethod).toUpperCase()}`;
 
-    const text = `🌿 <b>PLANT MARKET | BUYURTMA #${order.orderNumber}</b>\n\n` +
+    const text = `🌸 <b>FLOWERWAY | BUYURTMA #${order.orderNumber}</b>\n\n` +
       `👤 <b>Xaridor:</b> ${order.customerName}\n` +
       `📞 <b>Telefon:</b> ${order.phoneNumber}\n` +
-      `📍 <b>Yetkazish manzili:</b> ${order.deliveryAddress.street}, ${order.deliveryAddress.city}\n` +
+      `📍 <b>Yetkazish manzili:</b> ${order.deliveryAddress?.streetAddress || ''}, ${order.deliveryAddress?.cityDistrict || ''}, ${order.deliveryAddress?.region || ''}\n` +
       `⏱ <b>Holati:</b> ${statusUpdateText || "Qabul qilindi va yig'ilmoqda"}\n\n` +
       `📦 <b>Tarkibi:</b>\n${itemsList}\n\n` +
       `💰 <b>Umumiy summa:</b> ${formatUZS(order.totalAmount)}\n` +
