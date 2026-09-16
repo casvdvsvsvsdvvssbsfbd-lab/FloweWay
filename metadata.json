@@ -1,0 +1,6 @@
+{
+  "name": "Plant Market",
+  "description": "Uzbekistan-wide premium plant, gardening, and care marketplace frontend prototype",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
